@@ -1,0 +1,37 @@
+---
+import { url } from '../lib/paths.js';
+const { current = 'home' } = Astro.props;
+const home = url('/');
+const links = [
+  { label: 'Work', href: `${home}#work`, key: 'work' },
+  { label: 'What we design', href: `${home}#sectors` },
+  { label: 'How we work', href: `${home}#process` },
+  { label: 'Studio', href: `${home}#studio` },
+];
+---
+
+<p class="concept-bar">
+  <span>Unofficial design concept</span> — made independently, not commissioned by or affiliated with NEST Architects.
+</p>
+<header class="site-header" data-header>
+  <a class="wordmark" href={home} aria-label="Nest Architects — home">
+    <span class="wordmark__nest">nest</span>
+    <span class="wordmark__arch">architects</span>
+  </a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span class="nav-toggle__label">Menu</span>
+    <span class="nav-toggle__bars" aria-hidden="true"></span>
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Primary" data-nav>
+    <ul>
+      {
+        links.map((l) => (
+          <li>
+            <a href={l.href} aria-current={l.key === current ? 'page' : undefined}>{l.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+    <a class="btn btn--line" href={`${home}#enquire`}>Start a conversation</a>
+  </nav>
+</header>

@@ -1,0 +1,135 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sketch from '../../components/Sketch.astro';
+import { url } from '../../lib/paths.js';
+
+const home = url('/');
+const rooms = [
+  { id: 'lobby', name: 'The lobby', sketch: 'lobby', alt: 'Drawing of a double-height lobby with a staircase and butterfly lights.',
+    body: 'You arrive under a double-height ceiling lined in mirror, with lights shaped like butterflies hanging through it. Their reflections multiply overhead and follow you up the staircase, where an artwork by Suruchi holds the wall.' },
+  { id: 'living', name: 'Living & dining', sketch: 'living', alt: 'Drawing of a living room with a pivoting partition and a dining table beyond.',
+    body: 'A partition that rotates on its axis stands between the two rooms. Turned one way they are a single generous space for a gathering; turned the other, each keeps its own mood without losing sight of the other. The television unit is detailed so that it appears to float off the wall.' },
+  { id: 'kitchen', name: 'The kitchen', sketch: 'kitchen', alt: 'Drawing of a kitchen with a central island and three pendant lights.',
+    body: 'White and deliberately quiet, with an island at its centre. It opens straight onto the dining area, so cooking stays part of the conversation.' },
+  { id: 'master', name: 'Master bedroom', sketch: 'bedroom', alt: 'Drawing of a bedroom with a carved headboard, a round mirror and a window seat.',
+    body: 'A vintage-style mirror meets you at the entrance. The bed-back is carved and finished in platinum against a rose metallic wallpaper, and a seat is built in beside the window to catch the north light.' },
+  { id: 'grandparents', name: 'Grandparents’ room', sketch: 'elders', alt: 'Drawing of a bedroom with vertical timber louvers and a concrete wall.',
+    body: 'The calmest room in the house. Exposed concrete sits behind louvered strips of wood, with metal wall art and a jute-textured wallpaper giving it an earthy, organic warmth.' },
+  { id: 'family', name: 'Family room',
+    body: 'A blue floor under cream sofas, a television unit worked in wooden mosaic, and tall glass doors that bring the daylight deep into the plan.' },
+  { id: 'sons', name: 'The sons’ rooms',
+    body: 'Two brothers, two characters. The younger has an ochre bed, pastel accents, a piano and a bird motif. The elder has blue tones edged in teak beading, glass lights, and a proper corner for study.' },
+  { id: 'terrace', name: 'Terrace garden', sketch: 'terrace', alt: 'Drawing of a terrace with a hanging swing in front of a carved jali screen.',
+    body: 'The house finishes outdoors: Rajwada-style seating, carved jali screens, inlaid tables and a vintage teak swing, for the evenings Nagpur does best.' },
+];
+const facts = [
+  ['Place', 'West Nagpur, Maharashtra'],
+  ['Completed', '2022'],
+  ['Time on the project', 'Two years'],
+  ['Plot', '6,000 sq ft'],
+  ['Scope', 'Residence interior design'],
+  ['Design', 'Nikita Tahilyani, Vikram Singhania'],
+];
+const makers = [
+  ['Kitchen & hardware', 'Häfele'],
+  ['Doors, partitions & finishes', 'Greenply'],
+  ['Windows', 'Fenesta'],
+  ['Sanitaryware', 'Jaquar'],
+  ['Lighting', 'Philips'],
+  ['Paint', 'Asian Paints'],
+];
+let plate = 0;
+---
+
+<Base
+  title="Vijayshree, West Nagpur — Nest Architects (design concept)"
+  description="A room-by-room walk through Vijayshree, a family bungalow interior in West Nagpur by NEST Architects, presented as part of an unofficial website concept."
+  current="work"
+>
+  <article class="project">
+    <header class="project__head">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href={`${home}#work`}>Work</a><span aria-hidden="true">/</span><span>Homes</span>
+      </nav>
+      <h1 class="display display--xl">Vijayshree</h1>
+      <p class="lede">
+        A family bungalow in West Nagpur where every room has its own character, and the house still reads as one.
+      </p>
+      <dl class="facts">
+        {facts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+      </dl>
+    </header>
+
+    <section class="project__brief" aria-labelledby="brief-h">
+      <div class="project__brief-art">
+        <Sketch name="vHouse" weight={1.1} />
+      </div>
+      <div>
+        <p class="eyebrow">The brief</p>
+        <h2 id="brief-h" class="title">Traditional at heart, <em>and made to measure.</em></h2>
+        <p>
+          The family wanted a home that felt traditional without feeling heavy. The studio's own phrase for the result
+          is “elegant with understated luxury”. To get there, almost nothing was bought off the shelf: furniture,
+          doors, kitchens and floors were designed for this house, so that one detail leads to the next.
+        </p>
+        <p>
+          Three generations live here. Each was given a room in their own key, and the work of the project was to make
+          those rooms belong to one another.
+        </p>
+      </div>
+    </section>
+
+    <div class="walk">
+      <nav class="walk__index" aria-label="Rooms">
+        <p class="label">Walk through</p>
+        <ol>
+          {rooms.map((r, i) => <li><a href={`#${r.id}`} data-room-link><span>{String(i + 1).padStart(2, '0')}</span>{r.name}</a></li>)}
+        </ol>
+      </nav>
+      <div class="walk__rooms">
+        {
+          rooms.map((r, i) => (
+            <section class:list={['room', { 'room--plate': r.sketch, 'room--flip': r.sketch && plate % 2 === 1 }]} id={r.id} aria-labelledby={`${r.id}-h`}>
+              {r.sketch && (
+                <figure class="room__plate">
+                  <Sketch name={r.sketch} weight={1.25} label={r.alt} />
+                  <figcaption class="plate-cap">Plate {String(++plate).padStart(2, '0')} · {r.name}. Drawn stand-in for the studio's photograph.</figcaption>
+                </figure>
+              )}
+              <div class="room__copy" data-reveal>
+                <p class="room__n">{String(i + 1).padStart(2, '0')}</p>
+                <h2 id={`${r.id}-h`}>{r.name}</h2>
+                <p>{r.body}</p>
+              </div>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+
+    <section class="makers" aria-labelledby="makers-h">
+      <div>
+        <p class="eyebrow">Made with</p>
+        <h2 id="makers-h" class="title">Materials <em>&amp; makers</em></h2>
+      </div>
+      <dl>
+        {makers.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+      </dl>
+      <p class="makers__pub">
+        As published in
+        <a href="https://thearchitectsdiary.com/resurgence-of-traditional-design-elements-with-contemporary-elegance-nest-architects/" target="_blank" rel="noopener noreferrer">The Architects Diary, April 2022<span class="visually-hidden"> (opens in a new tab)</span></a>.
+      </p>
+    </section>
+
+    <section class="next" aria-label="Continue">
+      <a class="next__link" href={`${home}#work`}>
+        <span class="eyebrow">Next</span>
+        <span class="display">All projects <i aria-hidden="true">→</i></span>
+      </a>
+      <a class="next__link next__link--alt" href={`${home}#enquire`}>
+        <span class="eyebrow">Planning a home of your own?</span>
+        <span class="display">Start a conversation <i aria-hidden="true">→</i></span>
+      </a>
+    </section>
+  </article>
+</Base>

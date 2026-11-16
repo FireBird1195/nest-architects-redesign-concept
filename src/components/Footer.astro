@@ -1,0 +1,44 @@
+---
+import { url } from '../lib/paths.js';
+import { studio } from '../lib/studio.js';
+const home = url('/');
+---
+
+<footer class="site-footer">
+  <div class="site-footer__top">
+    <a class="wordmark wordmark--lg" href={home} aria-label="Nest Architects — home">
+      <span class="wordmark__nest">nest</span>
+      <span class="wordmark__arch">architects</span>
+    </a>
+    <p class="site-footer__line">Architecture and interiors, drawn and built from Nagpur.</p>
+  </div>
+  <div class="site-footer__cols">
+    <div>
+      <h2 class="label">Studio</h2>
+      <address>{studio.address.map((l) => <span>{l}</span>)}</address>
+    </div>
+    <div>
+      <h2 class="label">Reach us</h2>
+      <p>{studio.phones.map((p) => <span>{p}</span>)}<span>{studio.email}</span></p>
+    </div>
+    <div>
+      <h2 class="label">Follow</h2>
+      <ul>
+        {studio.social.map((s) => <li><a href={s.href} rel="noopener noreferrer" target="_blank">{s.name}<span class="visually-hidden"> (opens in a new tab)</span></a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2 class="label">Pages</h2>
+      <ul>
+        <li><a href={`${home}#work`}>Selected work</a></li>
+        <li><a href={url('/work/vijayshree/')}>Vijayshree</a></li>
+        <li><a href={`${home}#enquire`}>Enquire</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="site-footer__note">
+    This is an unsolicited concept for discussion. It is not NEST Architects' website and has not been reviewed or
+    approved by the studio. Drawings are original stand-ins for the studio's own photography; studio facts are taken
+    from its public website and published coverage. Concept by Tejas, 2026.
+  </p>
+</footer>
