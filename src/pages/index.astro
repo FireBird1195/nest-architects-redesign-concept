@@ -3,26 +3,27 @@ import Base from '../layouts/Base.astro';
 import Sketch from '../components/Sketch.astro';
 import { url } from '../lib/paths.js';
 import { studio } from '../lib/studio.js';
+import Photo from '../components/Photo.astro';
+import { photos } from '../lib/photos.js';
 
 const project = url('/work/vijayshree/');
 const work = [
-  { id: 'vijayshree', n: '01', name: 'Vijayshree', kind: 'Bungalow interior', place: 'West Nagpur', sketch: 'vHouse', href: project },
-  { id: 'bungalow', n: '02', name: 'Luxury Bungalow', kind: 'Residence', place: 'Nagpur', sketch: 'vVilla' },
-  { id: 'chandrapur', n: '03', name: 'Chandrapur Residential', kind: 'Residence', place: 'Chandrapur', sketch: 'vFlat' },
-  { id: '4bhk', n: '04', name: '4BHK Residential Interior', kind: 'Apartment interior', place: 'Nagpur', sketch: 'vPlan' },
-  { id: 'store', n: '05', name: 'Ethnic Cloth Store', kind: 'Retail interior', place: 'Nagpur', sketch: 'vShop' },
+  { id: 'vijayshree', n: '01', name: 'Vijayshree', kind: 'Bungalow interior', place: 'West Nagpur', photo: photos.lobbyTall, href: project },
+  { id: 'chandrapur', n: '02', name: 'Chandrapur Residential', kind: 'Residence', place: 'Chandrapur', photo: photos.chandrapur },
+  { id: 'store', n: '03', name: 'Ethnic Cloth Store', kind: 'Retail interior', place: '', photo: photos.store },
+  { id: '4bhk', n: '04', name: '4BHK Residential Interior', kind: 'Residential interior', place: '', sketch: 'vPlan' },
 ];
 const sectors = [
-  { name: 'Homes', note: 'Bungalows, apartments and the interiors that go inside them. Most of our work begins here.' },
-  { name: 'Shops', note: 'Retail interiors and showrooms, such as an ethnic clothing store in Nagpur.' },
+  { name: 'Homes', note: 'Bungalows, apartments and the interiors that go inside them.' },
+  { name: 'Shops', note: 'Retail interiors and showrooms, such as the ethnic clothing store shown above.' },
   { name: 'Offices', note: 'Corporate and commercial workplaces, planned around how the people in them work.' },
   { name: 'Hotels & restaurants', note: 'Hospitality spaces where the room has to earn its keep every evening.' },
   { name: 'Hospitals', note: 'Healthcare buildings, planned alongside the NABH consultants among our associates.' },
 ];
 const steps = [
   { n: '1', title: 'We start with you', body: 'Every design is shaped around the people who will use it: how your family lives, how your staff work, what you want a visitor to feel at the door. The style follows from that, not the other way round.' },
-  { n: '2', title: 'We plan it properly', body: 'Requirements are drawn out and resolved on paper first, with civil and structural designers involved where the building needs them, so the decisions are made before anything is ordered.' },
-  { n: '3', title: 'We stay until it is finished', body: 'A site supervisor from our own team follows the work through, so what gets built is what was drawn, down to the detailing.' },
+  { n: '2', title: 'We plan it properly', body: 'Requirements are worked through carefully on paper first, with civil and structural designers among our associates where the building needs them.' },
+  { n: '3', title: 'We stay until it is finished', body: 'Execution is quick and attentive to detail, with a site supervisor on our own team to follow the work through.' },
 ];
 ---
 
@@ -46,23 +47,35 @@ const steps = [
     </div>
     <div class="hero__art">
       <svg class="hero__ring" viewBox="0 0 400 400" aria-hidden="true"><circle cx="200" cy="200" r="186" /></svg>
-      <Sketch name="section" weight={1.5} label="Hand-drawn section through a gabled house: rooms for living, a double-height lobby with a stair, and a swing on the terrace." />
+      <Photo photo={photos.heroLiving} eager caption="Living room, Vijayshree, West Nagpur. Photograph: NEST Architects." />
     </div>
     <p class="hero__foot"><span>Re-design for the home we live in</span><span>Scroll</span></p>
+  </section>
+
+  <section class="origin" aria-labelledby="origin-h">
+    <div class="origin__art">
+      <Sketch name="section" weight={1.5} label="Hand-drawn section through a gabled house: rooms for living, a double-height lobby with a stair, and a swing on the terrace." />
+    </div>
+    <div class="origin__copy">
+      <h2 id="origin-h" class="title">First a line. <em>Then a room.</em></h2>
+      <p>
+        The house in our mark is drawn by hand, and so is the first idea for every project. What follows is the same
+        thing carried all the way through: planned, detailed and built.
+      </p>
+    </div>
   </section>
 
   <section class="work" id="work" aria-labelledby="work-h">
     <header class="section-head">
       <p class="eyebrow">Selected work</p>
-      <h2 id="work-h" class="title">Five projects, <em>one way of working.</em></h2>
+      <h2 id="work-h" class="title">Four projects, <em>one way of working.</em></h2>
     </header>
     <div class="work__body">
       <div class="work__pane" aria-hidden="true">
         {
           work.map((w, i) => (
-            <div class:list={['work__plate', { 'is-active': i === 0 }]} data-work-pane={w.id}>
-              <Sketch name={w.sketch} weight={1.3} animate={false} />
-              <p class="plate-cap">Drawn stand-in · {w.name}</p>
+            <div class:list={['work__plate', { 'is-active': i === 0, 'work__plate--drawn': !w.photo }]} data-work-pane={w.id}>
+              {w.photo ? <Photo photo={{ ...w.photo, alt: '' }} cover eager={i === 0} /> : <Sketch name={w.sketch} weight={1.3} animate={false} />}
             </div>
           ))
         }
@@ -75,10 +88,12 @@ const steps = [
               <li>
                 <Tag class:list={['work__row', { 'is-active': i === 0, 'work__row--link': w.href }]} href={w.href} data-work-row={w.id} tabindex={w.href ? undefined : 0}>
                   <span class="work__n">{w.n}</span>
-                  <span class="work__thumb" aria-hidden="true"><Sketch name={w.sketch} weight={2.2} animate={false} /></span>
+                  <span class="work__thumb">
+                    {w.photo ? <Photo photo={w.photo} cover /> : <Sketch name={w.sketch} weight={2.2} animate={false} label="Plan drawing" />}
+                  </span>
                   <span class="work__name">{w.name}</span>
-                  <span class="work__meta">{w.kind}<i class="sep" aria-hidden="true"> · </i><br />{w.place}</span>
-                  <span class="work__go">{w.href ? <>Read the project <i aria-hidden="true">→</i></> : 'Story to follow'}</span>
+                  <span class="work__meta">{w.kind}{w.place && <><i class="sep" aria-hidden="true"> · </i><br />{w.place}</>}</span>
+                  <span class="work__go">{w.href && <>View project <i aria-hidden="true">→</i></>}</span>
                 </Tag>
               </li>
             );
@@ -86,24 +101,22 @@ const steps = [
         }
       </ol>
     </div>
-    <p class="work__note">
-      In this concept, one project is told in full. The other four are real Nest projects listed on the studio's
-      current site; their stories and photographs would follow in a complete build.
-    </p>
+    <p class="work__note">Photographs: NEST Architects, shown from the studio's own website.</p>
   </section>
 
   <section class="feature" aria-labelledby="feature-h" data-reveal>
     <div class="feature__plate">
-      <Sketch name="lobby" weight={1.2} label="Drawing of a double-height lobby with a staircase and butterfly-shaped lights hanging from a mirrored ceiling." />
-      <p class="plate-cap">Plate 01 · The lobby at Vijayshree. Drawn stand-in for the studio's photograph.</p>
+      <Photo photo={photos.livingWide} class="feature__main" />
+      <Photo photo={photos.eldersTall} class="feature__inset" />
+      <p class="plate-cap">Living room and grandparents' room, Vijayshree. Photographs: NEST Architects.</p>
     </div>
     <div class="feature__copy">
       <p class="eyebrow">Featured · West Nagpur, 2022</p>
       <h2 id="feature-h" class="title">Vijayshree</h2>
       <p>
-        A family bungalow, two years in the making, where three generations each have a room that is recognisably
-        theirs, and the house still reads as one. Butterflies hang in the lobby. A partition turns on its axis between
-        living and dining. The terrace ends in a teak swing.
+        A family bungalow, two years in the making, with rooms for the couple, their sons and the grandparents, each
+        in its own character. Butterfly lights hang in the lobby. A partition rotates between living and dining. The
+        terrace has a vintage teak swing.
       </p>
       <p class="feature__pub">Published in The Architects Diary, April 2022.</p>
       <a class="btn btn--line" href={project}>Walk through the house</a>

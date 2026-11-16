@@ -241,10 +241,7 @@ dd { font-size: 0.98rem; }
 .walk__index a[aria-current] { color: var(--teal); border-left-color: var(--teal); padding-left: 1.3rem; font-weight: 600; }
 .walk__rooms { grid-column: 4 / span 9; display: grid; gap: clamp(4rem, 9vw, 9rem); }
 .room { display: grid; grid-template-columns: repeat(9, 1fr); column-gap: var(--gap); align-items: end; scroll-margin-top: 7rem; }
-.room__plate { grid-column: 1 / span 6; display: grid; gap: 0.8rem; }
-.room__plate .sketch { background: var(--paper-2); padding: 7% 8%; }
 .room__copy { grid-column: 7 / span 3; display: grid; gap: 0.8rem; padding-bottom: 2rem; }
-.room--flip .room__plate { grid-column: 4 / span 6; order: 2; }
 .room--flip .room__copy { grid-column: 1 / span 3; order: 1; }
 .room__n { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; color: var(--teal); }
 .room h2 { font: 400 clamp(1.7rem, 2.6vw, 2.5rem) / 1.05 var(--serif); letter-spacing: -0.01em; }
@@ -272,6 +269,49 @@ dd { font-size: 0.98rem; }
 .next__link--alt .eyebrow { color: #a9d9d2; }
 .next__link--alt:hover { background: #0c5050; }
 
+/* Photographs -------------------------------------------------------------- */
+.photo { display: grid; gap: 0.7rem; min-width: 0; }
+.photo__frame { aspect-ratio: var(--ar); background: var(--paper-2); overflow: hidden; }
+.photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.js .photo img { opacity: 0; transition: opacity 0.7s ease; }
+.js .photo img.is-loaded { opacity: 1; }
+.photo.is-missing { display: none; }
+.photo--cover, .photo--cover .photo__frame { height: 100%; aspect-ratio: auto; }
+
+.hero__art .photo { position: relative; width: min(72%, 27rem); margin-inline: auto; }
+.origin { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gap); align-items: center; padding: clamp(3rem, 7vw, 7rem) var(--pad) 0; }
+.origin__art { grid-column: 1 / span 6; }
+.origin__copy { grid-column: 8 / span 5; display: grid; gap: 1.2rem; }
+.origin__copy p { color: var(--ink-soft); max-width: 30em; }
+
+.work__pane { aspect-ratio: 4 / 5; }
+.work__plate { padding: 0; }
+.work__plate--drawn { padding: 16%; }
+.work__row { grid-template-columns: 2.75rem 1fr 11rem 7.5rem; }
+
+.feature__plate { position: relative; padding-bottom: 12%; }
+.feature__main { width: 84%; }
+.feature__inset { position: absolute; right: 0; bottom: 3.2rem; width: 30%; box-shadow: 0 0 0 0.6rem var(--teal-deep); }
+.feature__plate .plate-cap { position: absolute; left: 0; bottom: 0; max-width: 62%; margin: 0; }
+.feature .photo__frame { background: #0d4f4f; }
+
+.project__lead { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gap); row-gap: 0.8rem; align-items: end; padding: clamp(2.5rem, 5vw, 4.5rem) var(--pad) 0; }
+.project__lead-main { grid-column: 1 / span 7; }
+.project__lead-side { grid-column: 9 / span 3; }
+.project__lead .plate-cap { grid-column: 1 / -1; }
+
+.room { align-items: end; }
+.room__media { grid-column: 1 / span 6; display: flex; gap: var(--gap); align-items: flex-end; }
+.room__media .photo { flex: var(--fx) 1 0; }
+.room__media--stack { flex-direction: column; align-items: stretch; }
+.room__media--stack .photo { flex: none; }
+.room__media--stack .photo:first-child { width: 86%; }
+.room__media--stack .photo:last-child { width: 62%; align-self: flex-end; margin-top: calc(var(--gap) * -3); box-shadow: 0 0 0 0.6rem var(--paper); }
+.room__media--solo-tall { grid-column: 2 / span 4; }
+.room--flip .room__media { grid-column: 4 / span 6; order: 2; }
+.room--flip .room__media--solo-tall { grid-column: 5 / span 4; }
+.room__sketch { width: 6.5rem; margin-bottom: 0.6rem; opacity: 0.9; }
+
 /* Responsive ------------------------------------------------------------- */
 @media (max-width: 1100px) {
   .sectors__list { grid-template-columns: 1fr; }
@@ -279,8 +319,7 @@ dd { font-size: 0.98rem; }
   .sectors__list h3 { flex: 0 0 42%; }
   .facts { grid-template-columns: repeat(3, 1fr); }
   .walk__index { grid-column: 1 / span 3; }
-  .work__row { grid-template-columns: 2.5rem 1fr 9.5rem; }
-  .work__go { grid-column: 2 / -1; text-align: left; margin-top: 0.4rem; }
+  .work__row { grid-template-columns: 2.5rem 1fr 9.5rem 7rem; }
 }
 
 @media (max-width: 860px) {
@@ -312,10 +351,25 @@ dd { font-size: 0.98rem; }
   .hero__foot span:last-child { display: none; }
   .sk-t { font-size: 19px; }
 
+  .hero__art .photo { width: 78%; }
+  .hero__ring { inset: -6% 6% auto; width: 88%; }
+  .origin__art, .origin__copy, .project__lead-main, .room .room__media, .room--flip .room__media, .room .room__media--solo-tall { grid-column: 1 / -1; order: 0; }
+  .origin { row-gap: 1.5rem; }
+  .project__lead-side { display: none; }
+  .room__media--solo-tall { max-width: 78%; }
+  .room__media { gap: 0.6rem; }
+  .room__media--stack .photo:first-child { width: 100%; }
+  .room__media--stack .photo:last-child { margin-top: 0; width: 70%; box-shadow: none; }
+  .feature__plate { padding-bottom: 0; display: grid; gap: 0.8rem; }
+  .feature__main { width: 100%; }
+  .feature__inset { position: static; width: 46%; box-shadow: none; }
+  .feature__plate .plate-cap { position: static; max-width: none; }
+  .room__sketch { width: 5rem; }
   .work__pane { display: none; }
   .work__row { grid-template-columns: 4.25rem 1fr; row-gap: 0.3rem; align-items: center; }
   .work__n { display: none; }
-  .work__thumb { display: block; grid-row: 1 / span 3; background: var(--paper-2); padding: 0.4rem; }
+  .work__thumb { display: block; grid-row: 1 / span 3; background: var(--paper-2); aspect-ratio: 4 / 5; overflow: hidden; }
+  .work__thumb .sketch { padding: 0.4rem; }
   .work__name, .work__meta, .work__go { grid-column: 2; }
   .work__meta br { display: none; }
   .work__meta .sep { display: inline; white-space: pre; }
@@ -342,10 +396,9 @@ dd { font-size: 0.98rem; }
   .walk__index ol { grid-template-columns: 1fr 1fr; column-gap: 1rem; }
   .walk__index a { min-height: 2.75rem; align-items: center; }
   .room { grid-template-columns: 1fr; row-gap: 1.25rem; }
-  .room .room__plate, .room .room__copy, .room--flip .room__plate, .room--flip .room__copy,
+  .room .room__copy, .room--flip .room__copy,
   .room:not(.room--plate) .room__copy { grid-column: 1; order: 0; padding-bottom: 0; }
   .room:not(.room--plate) .room__copy { padding: 1.5rem 0 0; }
-  .room__plate .sketch { padding: 6%; }
   .makers dl { grid-template-columns: 1fr; }
   .next { grid-template-columns: 1fr; }
 }
@@ -361,3 +414,7 @@ dd { font-size: 0.98rem; }
   .js .sketch--draw .sk-t { opacity: 0.72; }
   .js [data-reveal] { opacity: 1; transform: none; }
 }
+
+/* Work pane photographs fill the plate */
+.work__plate:not(.work__plate--drawn) { display: block; }
+.work__plate .photo, .work__thumb .photo { width: 100%; height: 100%; }

@@ -1,0 +1,29 @@
+---
+// A photograph shown from the studio's own server (never copied into this repo).
+// If it cannot load, the figure removes itself rather than leaving a broken frame.
+interface Props {
+  photo: { src: string; w: number; h: number; alt: string };
+  caption?: string;
+  class?: string;
+  eager?: boolean;
+  cover?: boolean;
+}
+const { photo, caption, class: cls = '', eager = false, cover = false } = Astro.props;
+---
+
+<figure class:list={['photo', cls, { 'photo--cover': cover }]} style={`--ar:${photo.w}/${photo.h};--fx:${(photo.w / photo.h).toFixed(3)}`}>
+  <div class="photo__frame">
+    <img
+      src={photo.src}
+      width={photo.w}
+      height={photo.h}
+      alt={photo.alt}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+      referrerpolicy="no-referrer"
+      onload="this.classList.add('is-loaded')"
+      onerror="this.closest('.photo').classList.add('is-missing')"
+    />
+  </div>
+  {caption && <figcaption class="plate-cap">{caption}</figcaption>}
+</figure>

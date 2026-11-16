@@ -2,25 +2,27 @@
 import Base from '../../layouts/Base.astro';
 import Sketch from '../../components/Sketch.astro';
 import { url } from '../../lib/paths.js';
+import Photo from '../../components/Photo.astro';
+import { photos } from '../../lib/photos.js';
 
 const home = url('/');
 const rooms = [
-  { id: 'lobby', name: 'The lobby', sketch: 'lobby', alt: 'Drawing of a double-height lobby with a staircase and butterfly lights.',
-    body: 'You arrive under a double-height ceiling lined in mirror, with lights shaped like butterflies hanging through it. Their reflections multiply overhead and follow you up the staircase, where an artwork by Suruchi holds the wall.' },
-  { id: 'living', name: 'Living & dining', sketch: 'living', alt: 'Drawing of a living room with a pivoting partition and a dining table beyond.',
-    body: 'A partition that rotates on its axis stands between the two rooms. Turned one way they are a single generous space for a gathering; turned the other, each keeps its own mood without losing sight of the other. The television unit is detailed so that it appears to float off the wall.' },
-  { id: 'kitchen', name: 'The kitchen', sketch: 'kitchen', alt: 'Drawing of a kitchen with a central island and three pendant lights.',
-    body: 'White and deliberately quiet, with an island at its centre. It opens straight onto the dining area, so cooking stays part of the conversation.' },
-  { id: 'master', name: 'Master bedroom', sketch: 'bedroom', alt: 'Drawing of a bedroom with a carved headboard, a round mirror and a window seat.',
-    body: 'A vintage-style mirror meets you at the entrance. The bed-back is carved and finished in platinum against a rose metallic wallpaper, and a seat is built in beside the window to catch the north light.' },
-  { id: 'grandparents', name: 'Grandparents’ room', sketch: 'elders', alt: 'Drawing of a bedroom with vertical timber louvers and a concrete wall.',
-    body: 'The calmest room in the house. Exposed concrete sits behind louvered strips of wood, with metal wall art and a jute-textured wallpaper giving it an earthy, organic warmth.' },
+  { id: 'lobby', name: 'The lobby', sketch: 'lobby', photos: [photos.lobbyTall, photos.lobbyWide],
+    body: 'A double-height space with a mirrored ceiling and butterfly lighting, so that butterflies seem to surround you on the staircase. An artwork by Suruchi hangs on the lobby wall.' },
+  { id: 'living', name: 'Living & dining', sketch: 'living', photos: [photos.livingAlt, photos.dining], stack: true,
+    body: 'A rotating partition stands between the living and dining areas, keeping the two visually connected. The television unit is detailed so that the screen appears to float.' },
+  { id: 'kitchen', name: 'The kitchen', sketch: 'kitchen', photos: [photos.kitchen],
+    body: 'A minimalist white kitchen with an island table, connected to the dining area.' },
+  { id: 'master', name: 'Master bedroom', sketch: 'bedroom', photos: [photos.master],
+    body: 'A vintage-style mirror at the entrance, intricate carving at the bed-back in a platinum rustic finish, and rosy metallic wallpaper. Seating by the window is placed to take the north light.' },
+  { id: 'grandparents', name: 'Grandparents’ room', sketch: 'elders', photos: [photos.eldersTall, photos.eldersWide],
+    body: 'An exposed concrete finish behind the bed, louvered wooden strips, metal wall art and jute-textured wallpaper, with florals in the carpet and curtains. The published description calls it humble and raw.' },
   { id: 'family', name: 'Family room',
-    body: 'A blue floor under cream sofas, a television unit worked in wooden mosaic, and tall glass doors that bring the daylight deep into the plan.' },
-  { id: 'sons', name: 'The sons’ rooms',
-    body: 'Two brothers, two characters. The younger has an ochre bed, pastel accents, a piano and a bird motif. The elder has blue tones edged in teak beading, glass lights, and a proper corner for study.' },
-  { id: 'terrace', name: 'Terrace garden', sketch: 'terrace', alt: 'Drawing of a terrace with a hanging swing in front of a carved jali screen.',
-    body: 'The house finishes outdoors: Rajwada-style seating, carved jali screens, inlaid tables and a vintage teak swing, for the evenings Nagpur does best.' },
+    body: 'A blue floor, cream sofas, a television unit clad in wooden mosaic, tall glass doors and a custom metallic wallpaper.' },
+  { id: 'sons', name: 'The sons’ rooms', photos: [photos.sonYounger, photos.sonElder],
+    body: 'One room has an ochre bed with pastel tints, birds on the ring and a piano in the corner. The elder son’s room is blue with teak wood beading, glass lights and a study corner.' },
+  { id: 'terrace', name: 'Terrace garden', sketch: 'terrace', photos: [photos.terraceSwing, photos.terraceWide], stack: true,
+    body: 'Rajwada-style seating, carved jalis, inlay tables and a vintage teak swing overlooking the garden.' },
 ];
 const facts = [
   ['Place', 'West Nagpur, Maharashtra'],
@@ -31,7 +33,7 @@ const facts = [
   ['Design', 'Nikita Tahilyani, Vikram Singhania'],
 ];
 const makers = [
-  ['Kitchen & hardware', 'Häfele'],
+  ['Kitchen, wallpaper & hardware', 'Häfele'],
   ['Doors, partitions & finishes', 'Greenply'],
   ['Windows', 'Fenesta'],
   ['Sanitaryware', 'Jaquar'],
@@ -39,6 +41,7 @@ const makers = [
   ['Paint', 'Asian Paints'],
 ];
 let plate = 0;
+const isTall = (p) => p.h > p.w;
 ---
 
 <Base
@@ -53,28 +56,35 @@ let plate = 0;
       </nav>
       <h1 class="display display--xl">Vijayshree</h1>
       <p class="lede">
-        A family bungalow in West Nagpur where every room has its own character, and the house still reads as one.
+        A family bungalow in the west of Nagpur, fitted out room by room with furniture, doors, kitchens and floors
+        made for the house.
       </p>
       <dl class="facts">
         {facts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
       </dl>
     </header>
 
+    <div class="project__lead">
+      <Photo photo={photos.livingWide} eager class="project__lead-main" />
+      <Photo photo={photos.heroLiving} eager class="project__lead-side" />
+      <p class="plate-cap">The living room. Photographs: NEST Architects, shown from the studio's website.</p>
+    </div>
+
     <section class="project__brief" aria-labelledby="brief-h">
       <div class="project__brief-art">
         <Sketch name="vHouse" weight={1.1} />
       </div>
       <div>
-        <p class="eyebrow">The brief</p>
-        <h2 id="brief-h" class="title">Traditional at heart, <em>and made to measure.</em></h2>
+        <p class="eyebrow">The idea</p>
+        <h2 id="brief-h" class="title">Traditional in spirit, <em>and made to measure.</em></h2>
         <p>
-          The family wanted a home that felt traditional without feeling heavy. The studio's own phrase for the result
-          is “elegant with understated luxury”. To get there, almost nothing was bought off the shelf: furniture,
-          doors, kitchens and floors were designed for this house, so that one detail leads to the next.
+          The published account of the house describes a traditional style shaped by the owners' personality, and sums
+          it up as “elegant with understated luxury”. Bespoke pieces were used throughout, for furniture, doors,
+          kitchens and floors, so that each detail connects to the next.
         </p>
         <p>
-          Three generations live here. Each was given a room in their own key, and the work of the project was to make
-          those rooms belong to one another.
+          It is home to a couple, their sons and the grandparents. Each room has its own character while remaining
+          part of one house.
         </p>
       </div>
     </section>
@@ -88,21 +98,25 @@ let plate = 0;
       </nav>
       <div class="walk__rooms">
         {
-          rooms.map((r, i) => (
-            <section class:list={['room', { 'room--plate': r.sketch, 'room--flip': r.sketch && plate % 2 === 1 }]} id={r.id} aria-labelledby={`${r.id}-h`}>
-              {r.sketch && (
-                <figure class="room__plate">
-                  <Sketch name={r.sketch} weight={1.25} label={r.alt} />
-                  <figcaption class="plate-cap">Plate {String(++plate).padStart(2, '0')} · {r.name}. Drawn stand-in for the studio's photograph.</figcaption>
-                </figure>
-              )}
-              <div class="room__copy" data-reveal>
-                <p class="room__n">{String(i + 1).padStart(2, '0')}</p>
-                <h2 id={`${r.id}-h`}>{r.name}</h2>
-                <p>{r.body}</p>
-              </div>
-            </section>
-          ))
+          rooms.map((r, i) => {
+            const flip = r.photos && plate++ % 2 === 1;
+            const solo = r.photos?.length === 1;
+            return (
+              <section class:list={['room', { 'room--plate': r.photos, 'room--flip': flip }]} id={r.id} aria-labelledby={`${r.id}-h`}>
+                {r.photos && (
+                  <div class:list={['room__media', { 'room__media--stack': r.stack, 'room__media--solo-tall': solo && isTall(r.photos[0]) }]}>
+                    {r.photos.map((ph) => <Photo photo={ph} />)}
+                  </div>
+                )}
+                <div class="room__copy" data-reveal>
+                  {r.sketch && <div class="room__sketch"><Sketch name={r.sketch} weight={2.4} /></div>}
+                  <p class="room__n">{String(i + 1).padStart(2, '0')}</p>
+                  <h2 id={`${r.id}-h`}>{r.name}</h2>
+                  <p>{r.body}</p>
+                </div>
+              </section>
+            );
+          })
         }
       </div>
     </div>
@@ -116,7 +130,7 @@ let plate = 0;
         {makers.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
       </dl>
       <p class="makers__pub">
-        As published in
+        Project facts, room descriptions and suppliers as published in
         <a href="https://thearchitectsdiary.com/resurgence-of-traditional-design-elements-with-contemporary-elegance-nest-architects/" target="_blank" rel="noopener noreferrer">The Architects Diary, April 2022<span class="visually-hidden"> (opens in a new tab)</span></a>.
       </p>
     </section>
