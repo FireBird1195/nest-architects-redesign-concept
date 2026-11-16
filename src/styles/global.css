@@ -418,3 +418,9 @@ dd { font-size: 0.98rem; }
 /* Work pane photographs fill the plate */
 .work__plate:not(.work__plate--drawn) { display: block; }
 .work__plate .photo, .work__thumb .photo { width: 100%; height: 100%; }
+
+/* Studio logo in the header; the typeset wordmark is the fallback if it cannot load */
+.wordmark--logo img { display: block; height: 4.5rem; width: auto; }
+.wordmark--logo img ~ span { display: none; }
+.site-header { padding-block: 0.6rem; }
+@media (max-width: 860px) { .wordmark--logo img { height: 3.6rem; } }
