@@ -370,3 +370,20 @@ a, button, label, summary { touch-action: manipulation; -webkit-tap-highlight-co
 section[id] { scroll-margin-top: 1rem; }
 .btn-line, .submit, .dock .dock__cta { font-weight: 600; letter-spacing: .005em; }
 @media (pointer: coarse) { .dock button, .dock a.dock__btn, .dock__mark, .quote__nav button, .reels button { min-height: 44px; min-width: 44px; } }
+
+/* Review fixes after live check (26 Nov) */
+.walk__media { display: grid; justify-items: center; gap: 1.2rem; }
+.walk__media .reels { margin-top: 0; padding: 0; max-width: 22rem; }
+.hero__words { top: auto; bottom: clamp(9rem, 16vw, 13rem); transform: none; font-size: .85rem; }
+.topbar__mid, .topbar__right, .hero__meta, .hero__credit { text-shadow: 0 1px 12px rgba(0,0,0,.55); }
+.card--b { margin-top: clamp(3rem, 8vw, 7rem); }
+.card--c { margin-top: clamp(-1rem, -2vw, 0rem); }
+.featured { padding-bottom: clamp(3rem, 7vw, 6rem); }
+.wordmark { display: inline-block; font-size: 17vw; }
+body { padding-bottom: 0; }
+.footer { padding-bottom: 8rem; }
+@media (max-width: 760px) {
+  .hero__words { display: none; }
+  .card figcaption { grid-template-columns: 1fr; }
+  .walk__steps { width: 100%; }
+}

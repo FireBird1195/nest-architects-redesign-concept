@@ -108,3 +108,11 @@ if (form) {
     note.focus();
   });
 }
+
+// Fit the footer wordmark to the full width of the page
+const wm = document.querySelector('.wordmark');
+if (wm) {
+  const fit = () => { wm.style.fontSize = '100px'; const w = wm.getBoundingClientRect().width; const cs = getComputedStyle(wm.parentElement); const target = wm.parentElement.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight); wm.style.fontSize = (100 * target / w) + 'px'; };
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(fit);
+  addEventListener('resize', fit);
+}
